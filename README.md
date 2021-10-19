@@ -2,6 +2,7 @@
 Lépésszámláló webalkalmazás
 ----------------------------
 
+
 adatbázis: 214_SZFT_stepcounter
 táblák: users(ID, username, email, password, reg, last, rights, status)
         stepdata(ID, userID, date, stepcount)
