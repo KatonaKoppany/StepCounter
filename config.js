@@ -6,8 +6,8 @@ var dbconfig = {
 }
 
 var appConfig = {
-    appname = "Stepcounter WebApplication",
-    author = "Bajai SZC Türr István Technikum - 2/14. SZFT"
+    appname : "Stepcounter WebApplication",
+    author : "Bajai SZC Türr István Technikum - 2/14. SZFT"
 }
 
 module.exports = dbconfig;
