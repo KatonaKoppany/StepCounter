@@ -1,0 +1,19 @@
+{
+  "name": "stepcounter",
+  "version": "1.0.0",
+  "description": "Lépésszámláló webalkalmazás\r ----------------------------",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KatonaKoppany/StepCounter.git"
+  },
+  "author": "KKG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KatonaKoppany/StepCounter/issues"
+  },
+  "homepage": "https://github.com/KatonaKoppany/StepCounter#readme"
+}
