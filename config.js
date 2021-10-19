@@ -1,7 +1,7 @@
 var dbconfig = {
-    host: "localhost",
-    user: "214_SZFT",
-    password: "123456",
+    host: 'localhost',
+    user: '214_SZFT_KKG',
+    password: '123456',
     database: "214_SZFT_stepcounter"
 }
 

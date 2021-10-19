@@ -3,9 +3,13 @@ const ejs = require('ejs');
 const path = require('path');
 const session = require('express-session');
 const mysql = require('mysql');
-const {dbconfig, appConfig} = require('./config.js');
+const dbconfig = require('./config.js');
+
 const port = process.env.port || 3000;
 const app = express();
+
+//connect to mysql database
+var connection = mysql.createConnection(dbconfig);
 
 app.get('/', (req, res) => {
     ejs.renderFile('public/index.ejs', (err, data) => {
