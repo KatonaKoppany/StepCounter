@@ -11,6 +11,11 @@ const app = express();
 //connect to mysql database
 var connection = mysql.createConnection(dbconfig);
 
+connection.connect((err) => {
+    if(err) throw err;
+    console.log('Connected to MySql database...');
+});
+
 app.get('/', (req, res) => {
     ejs.renderFile('public/index.ejs', (err, data) => {
         if(err) throw err;
