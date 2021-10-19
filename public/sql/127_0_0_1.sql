@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2021. Okt 19. 13:17
+-- Létrehozás ideje: 2021. Okt 19. 13:23
 -- Kiszolgáló verziója: 10.4.6-MariaDB
 -- PHP verzió: 7.3.8
 
@@ -49,10 +49,18 @@ CREATE TABLE `users` (
   `email` varchar(100) COLLATE utf8_hungarian_ci NOT NULL,
   `password` varchar(40) COLLATE utf8_hungarian_ci NOT NULL,
   `reg` datetime NOT NULL,
-  `last` datetime NOT NULL,
+  `last` datetime DEFAULT NULL,
   `rights` varchar(20) COLLATE utf8_hungarian_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `users`
+--
+
+INSERT INTO `users` (`ID`, `username`, `email`, `password`, `reg`, `last`, `rights`, `status`) VALUES
+(1, 'admin', 'admin@admin.com', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', '2021-10-19 00:00:00', '0000-00-00 00:00:00', 'admin', 1),
+(2, 'Test user1', 'test1@test.com', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', '2021-10-19 00:00:00', '0000-00-00 00:00:00', 'user', 1);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -85,7 +93,7 @@ ALTER TABLE `stepdata`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Megkötések a kiírt táblákhoz
