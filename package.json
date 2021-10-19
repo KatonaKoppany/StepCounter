@@ -4,6 +4,8 @@
   "description": "Lépésszámláló webalkalmazás\r ----------------------------",
   "main": "index.js",
   "scripts": {
+    "start": "node server",
+    "dev": "nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
