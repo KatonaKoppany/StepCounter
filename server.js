@@ -4,7 +4,6 @@ const path = require('path');
 const session = require('express-session');
 const mysql = require('mysql');
 const dbconfig = require('./config.js');
-const { user } = require('./config.js');
 
 const port = process.env.port || 3000;
 const app = express();
