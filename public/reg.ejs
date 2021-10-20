@@ -1,6 +1,12 @@
 <div class="login-form container">
-    <h3>Login form</h3>
+    <h3>Registration form</h3>
+     
     <form action="/reg" method="POST">
+
+        <% if(hiba){ %>
+            <em> <%= hiba %> </em>
+        <% } %> 
+
         <div class="form-group">
             <input type="text" name="username" placeholder="Username" class="form-control">
         </div>
@@ -11,10 +17,10 @@
             <input type="password" name="password1" placeholder="Passwords" class="form-control">
         </div>
         <div class="form-group">
-            <input type="password" name="password1" placeholder="Passwords" class="form-control">
+            <input type="password" name="password2" placeholder="Passwords" class="form-control">
         </div>
         <div class="form-group">
-            <input type="submit" value="Login" class="btn btn-primary">
+            <input type="submit" value="Registration" class="btn btn-primary">
         </div>
     </form>
     <a href="/reg">Registration...</a>

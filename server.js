@@ -41,22 +41,30 @@ app.get('/reg', (req, res) => {
 });
 
 app.post('/reg', (req, res) => {
-    var name = req.body.name,
+    var name = req.body.username,
         email = req.body.email,
         pass1 = req.body.password1,
-        pass2 = req-body.password2;
+        pass2 = req.body.password2;
 
     if(pass1 != pass2){
-        res.send('The passwords are not the same!')
+        var hiba = 'The passwords are not the same!';
+        ejs.renderFile('public/index.ejs', {param:'reg', hiba:hiba}, (err, data) => {
+            if(err) throw err;
+            res.send(data);
+        });
     }
     else{
         connection.query(`SELECT * FROM users WHERE email=?`, [email], (err, results) => {
             if(err) throw err;
             if(results.length > 0){
-                res.send('This e-mail address is already registered!');
+                var hiba = 'This e-mail address is already registered!';
+                ejs.renderFile('public/index.ejs', {param:'reg', hiba:hiba}, (err, data) => {
+                    if(err) throw err;
+                    res.send(data);
+                });
             }
             else{
-                connection.query(`INSERT INTO users VALUES(null,'${name}','${email}',SHA1'${pass1}',CURRENT_TIMESTAMP,null,'user',1)`, (err) => {
+                connection.query(`INSERT INTO users VALUES(null,'${name}','${email}',SHA1('${pass1}'),CURRENT_TIMESTAMP,null,'user',1)`, (err) => {
                     if(err) throw err;
                     res.redirect('/');
                 });
@@ -66,6 +74,26 @@ app.post('/reg', (req, res) => {
 });
 //user registering END
 
+//user login/logout START
+app.post('/login', (req, res) =>{
+    var email = req.body.email,
+        pass = req.body.password;
+
+    connection.query(`SELECT * FROM users WHERE email='${email} AND password=SHA1('${pass}')`, (err, results) => {
+        if(err) throw err;
+        if(results.length == 0){
+            res.send('Incorrect e-mail or password');
+        }
+        else{
+            //belépés
+        }
+    });
+});
+
+app.post('/logout', (req, res) =>{
+
+});
+//user login/logout END
 
 
 
