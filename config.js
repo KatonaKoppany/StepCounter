@@ -11,4 +11,4 @@ var appConfig = {
 }
 
 module.exports = dbconfig;
-module.exports = appConfig;
+//module.exports = appConfig;
