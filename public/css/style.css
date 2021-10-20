@@ -1,0 +1,13 @@
+body{
+    background-color: silver;
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color:  slategray;
+    color: snow;
+    padding: 15px;
+    text-align: center;
+}
