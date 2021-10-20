@@ -1,11 +1,10 @@
 <%- include('header') %>
 
-<% if(param == 'login'){}
-        %><%- include('login'); %><%
-    }
-    else{
-        %><%-inclide('reg');%><%
-    }
-%> 
+<% if(param == 'login'){ %>
+        <%- include('login') %>
+    <% } %>
+    <% if(param != 'login'){ %> 
+        <%- include('reg') %>
+    <% } %> 
 
 <%- include('footer') %> 
