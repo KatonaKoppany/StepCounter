@@ -11,3 +11,31 @@ footer{
     padding: 15px;
     text-align: center;
 }
+
+.menu{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: slategray;
+}
+
+.menu li{
+    border-bottom: 1px dashed gray;
+    display: inline-block;
+}
+
+.menu li a{
+    display: block;
+    padding: 6px 16px;
+    text-decoration: none;
+    color: white;
+    text-shadow: 0 0 3px black;
+    cursor: pointer;
+    background-color: slategray;
+}
+
+.menu li a:hover{
+    background-color: black;
+    transition: 0.3s all;
+}

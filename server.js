@@ -125,6 +125,47 @@ app.get('/logout', (req, res) =>{
 });
 //user login/logout END
 
+//User passmod START
+app.get('/passmod', (req, res) => {
+    if(req.session.loggedIn){
+        ejs.renderFile('public/passmod.ejs', {hiba:''}, (err, data) => {
+            if(err) throw err;
+            res.send(data);
+        });
+    }
+    else{
+        res.send('Please login to get this page');
+    }
+});
+
+app.post('passmod', (req, res) => {
+    var oldpass = req.body.oldpass,
+        newpass1 = req.body.newpass1,
+        newpass2 = req.body.newpass2;
+
+    if(newpass1 != newpass2){
+        var hiba = 'The new passwords ar not the same!';
+        ejs.renderFile('public/passmod.ejs', {hiba}, (err, data) => {
+            if(err) throw err;
+            res.send(data);
+        });
+    }
+    else{
+        oldpass = SHA1(oldpass);
+        connection.query(`SELECT * FROM user WHERE ID=${req.session.userID}`, (err, results) => {
+            if(err) throw err;
+            if(newpass1 != results[0].password){
+                var hiba = 'The old password is invalid!';
+                ejs.renderFile('public/passmod.ejs', {hiba}, (err, data) => {
+                    if(err) throw err;
+                    res.send(data);
+                });
+            }
+        });
+    }
+});
+//User passmod END
+
 
 
 // SERVER LISTENING
