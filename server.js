@@ -109,6 +109,9 @@ app.post('/login', (req, res) =>{
             //belépés
             req.session.userID = results[0].ID;
             req.session.userName = results[0].username;
+            req.session.userMail = results[0].email;
+            req.session.userReg = results[0].reg;
+            req.session.userLast = getTimeStamp();          
             req.session.loggedIn = true;
             
             //last mező
@@ -152,21 +155,77 @@ app.post('passmod', (req, res) => {
         });
     }
     else{
-        oldpass = SHA1(oldpass);
+        oldpass = sha1(oldpass);
         connection.query(`SELECT * FROM user WHERE ID=${req.session.userID}`, (err, results) => {
             if(err) throw err;
-            if(newpass1 != results[0].password){
+            if(oldpass != results[0].password){
                 var hiba = 'The old password is invalid!';
                 ejs.renderFile('public/passmod.ejs', {hiba}, (err, data) => {
                     if(err) throw err;
                     res.send(data);
                 });
             }
+            else{
+                connection.query(`UPDATE users SET password=SHA1('${newpass1}') WHERE ID=${req.session.userID}`, (err,) => {
+                    if(err) throw err;
+                    var hiba = 'The password changed!';
+                    ejs.renderFile('public/passmod.ejs', {hiba}, (err, data) => {
+                        if(err) throw err;
+                        res.send(data);
+                    });
+                });
+            }
         });
     }
 });
 //User passmod END
+//USER PROFIL EDITING START
+app.get('/profilmod', (req, res) => {
+    if(req.session.loggedIn){
+        var profilData = {
+            name: req.session.userName,
+            email: req.session.userMail,
+            reg: req.session.userReg,
+            last: req.session.userLast
+        }
 
+        ejs.renderFile('public/profilmod.ejs', {hiba:'', profilData}, (err, data) => {
+            if(err) throw err;
+            res.send(data);
+        });
+    }
+    else{
+
+    }
+});
+
+app.post('/profilmod', (req, res) => {
+    var username = req.body.username,
+        email = req.body.email
+
+    connection.query(`SELECT FROM users WHERE email='${email} AND ID<>${req.session.userID}`, (err, results) => {
+        if(err) throw err;
+        if(results.length > 0){
+            ejs.renderFile('public/profilmod.ejs', {hiba:'This E-mail addres all ready use!', profilData}, (err, data) => {
+                if(err) throw err;
+                res.send(data);
+            });
+        }
+        else{
+            connection.query(`UPDATE users SET name='${username}', email='${email}' WHERE ID=${req.session.userID}`, (err) => {
+                if(err) throw err;
+                req.session.userName = username;
+                req.session.userMail = email;
+                
+                ejs.renderFile('public/profilmod.ejs', {hiba:'Profil successfully changed!', profilData}, (err, data) => {
+                    if(err) throw err;
+                    res.send(data);
+                });
+            });
+        }
+    });
+});
+//USER PROFIL EDITING END
 
 
 // SERVER LISTENING
@@ -174,3 +233,18 @@ app.listen(port, (err) => {
     if(err) throw err;
     console.log(`Server listening on port ${port}...`)
 });
+
+function getTimeStamp() {
+    var now = new Date();
+    return ( now.getFullYear() + "-" +
+        ((now.getMonth() < 10) ? ("0" + now.getMonth()) : (now.getMonth())) + '-' +
+        ((now.getDate() < 10) ? ("0" + now.getDate()) : (now.getDate())) + ' ' +
+    
+    now.getHours() + ':' +
+    ((now.getMinutes() < 10)
+        ? ("0" + now.getMinutes())
+        : (now.getMinutes())) + ':' +
+    ((now.getSeconds() < 10)
+        ? ("0" + now.getSeconds())
+        : (now.getSeconds())));
+}
