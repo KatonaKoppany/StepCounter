@@ -1,0 +1,27 @@
+<%- include('header') %>
+
+<%- include('menu') %> 
+<h3>Profil change</h3>
+<hr>
+<form action="/profilmod" method="POST">
+    <div class="form-group">
+        <input type="text" name="username" id="" value="<%= profilData.name %> " placeholder="Username" required>
+    </div>
+    <div class="form-group">
+        <input type="email" name="email" id="" value="<%= profilData.userMail %> placeholder="E-mail address">
+    </div>
+    <div class="form-group">
+        <label for="reg">Registration date:</label>
+        <input type="text" name="last" id="" value="<%= profilData.reg %>" class="form-control" disabled>
+    </div>
+    <div class="form-group">
+        <label for="reg">Last date:</label>
+        <input type="text" name="last" id="" value="<%= profilData.last %>" class="form-control" disabled>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Profil change" class="btn btn-primary">
+    </div>
+    
+</form>
+
+<%- include('footer') %> 
