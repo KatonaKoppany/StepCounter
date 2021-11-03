@@ -3,6 +3,7 @@ const ejs = require('ejs');
 const path = require('path');
 const session = require('express-session');
 const mysql = require('mysql');
+const sha1 = require('sha1');
 const dbconfig = require('./config.js');
 const { user } = require('./config.js');
 
