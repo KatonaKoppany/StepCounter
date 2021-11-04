@@ -179,6 +179,11 @@ app.post('passmod', (req, res) => {
     }
 });
 //User passmod END
+
+//TABLE VIEW START
+
+//TABLE VIEW END
+
 //USER PROFIL EDITING START
 app.get('/profilmod', (req, res) => {
     if(req.session.loggedIn){
@@ -195,7 +200,7 @@ app.get('/profilmod', (req, res) => {
         });
     }
     else{
-
+        res.send('This page is olny for registerd users');
     }
 });
 
@@ -226,8 +231,47 @@ app.post('/profilmod', (req, res) => {
     });
 });
 //USER PROFIL EDITING END
-//NEW STEP DATA START
 
+//NEW STEP DATA START
+app.get('/newdata', (req, res) => {
+    if(req.session.loggedIn){
+        var AktDate = getAktDate();
+        ejs.renderFile('public/newdata.ejs', {hiba:'', AktDate}, (err, data) => {
+            if(err) throw err;
+            res.send(data);
+        });
+    }
+    else{
+        res.send('This page is olny for registerd users');
+    }
+});
+
+app.post('/newdata', (req, res) => {
+    if(req.session.loggedIn){
+        var data = {
+            date: req.body.date,
+            stepCount: req.body.stepCount
+        }
+        connection.query(`SELECT * FROM stepdatas WHERE date=${data.date} AND userId=${req.session.userID}`, (err, results) => {
+            if(err) throw err;
+            if(results.length == 0){
+                connection.query(`INSERT INTO stepdatas VALUES(null, ${req.session.userID}, '${data.date}', ${data.stepCount})`, (err) => {
+                    if(err) throw err;
+                    res.redirect('/');
+                });
+            }
+            else{
+                connection.query(`UPDATE stepdatas SET stepcount = stepcount + ${data.stepCount} WHERE date=${data.date} AND userId=${req.session.userID}`, (err) => {
+                    if(err) throw err;
+                    res.redirect('/');
+                });
+            }
+        });
+    }
+    else{
+        res.send('This page is olny for registerd users');
+    }
+});
 //NEW STEP DATA END
 
 // SERVER LISTENING
@@ -249,4 +293,12 @@ function getTimeStamp() {
     ((now.getSeconds() < 10)
         ? ("0" + now.getSeconds())
         : (now.getSeconds())));
+}
+
+function getAktDate(){
+    var now = new Date();
+    return ( now.getFullYear() + "-" +
+        ((now.getMonth() < 10) ? ("0" + now.getMonth() + 1) : (now.getMonth() + 1)) + '-' +
+        ((now.getDate() < 10) ? ("0" + now.getDate()) : (now.getDate()))
+    );
 }
